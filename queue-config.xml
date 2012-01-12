@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+    
+	<bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="tcp://127.0.0.1:61616"></property>
+	</bean>
+	
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory">
+			<ref local="connectionFactory"/>
+		</property>
+		<!--  
+		<property name="defaultDestination" ref="destination"></property>
+		-->
+	</bean>
+	
+	<bean id="destination" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg index="0" value="HelloWorldQueue"></constructor-arg>
+	</bean>
+	
+	<bean id="sender" class="demo.spring.HelloWorldSender">
+		<property name="jmsTemplate" ref="jmsTemplate"/>
+		<property name="destination" ref="destination"/>
+	</bean>
+	
+	<bean id="receiver" class="demo.spring.HelloWorldReceiver">
+		<property name="jmsTemplate" ref="jmsTemplate"/>
+		<property name="destination" ref="destination"/>
+	</bean>
+</beans>

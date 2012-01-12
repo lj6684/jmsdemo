@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+    
+	<bean id="broker" class="org.apache.activemq.broker.BrokerService">
+		<property name="brokerName" value="springBroker"></property>
+		<property name="persistent" value="true"></property>
+		<property name="dataDirectory" value="./data"></property>
+		<property name="transportConnectorURIs">
+			<list>
+				<value>tcp://172.16.13.11:61616</value>
+				<value>tcp://127.0.0.1:61616</value>
+			</list>
+		</property>
+	</bean>
+</beans>
